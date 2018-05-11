@@ -2,17 +2,33 @@ import * as _ from 'lodash';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {MIN_REWARD} from '../blockChain/info';
+import './TotalRewards.css';
 
 export class TotalRewards extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {selectedId: undefined}
+    }
+
+    select(id) {
+        this.setState({selectedId: id})
+        this.props.onSelectRow(id)
+    }
+
+    deselect(id) {
+        this.setState({selectedId: undefined})
+        this.props.onDeselectRow(id)
     }
 
     renderRow(position) {
         const ageOfLastMove = this.props.currentBlockNumber - position.blockNumber;
         return (
-            <tr key={position.id}>
+            <tr key={position.id}
+                onMouseOver={() => this.select(position.id)}
+                onMouseOut={() => this.deselect(position.id)}
+                className={position.id === this.state.selectedId ? "selected" : ""}
+            >
                 <td>{position.id}</td>
                 <td>{position.totalReward}</td>
                 <td>{this.props.currentBlockNumber > 0 ? ageOfLastMove  : '-'}</td>
@@ -57,5 +73,7 @@ export class TotalRewards extends Component {
 
 TotalRewards.propTypes = {
     idToPosition: PropTypes.object,
-    currentBlockNumber: PropTypes.number
+    currentBlockNumber: PropTypes.number,
+    onSelectRow: PropTypes.func,
+    onDeselectRow: PropTypes.func,
 }

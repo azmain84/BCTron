@@ -50,13 +50,28 @@ export class Field extends Component {
         addListenerForNewBlockNumber((blockNumber) => this.newBlockNumber(blockNumber));
     }
 
+    highlight(id) {
+        console.log("highlight: " + id);
+        this.svgField.highlight(id, true);
+    }
+
+    lowlight(id) {
+        console.log("lowlight: " + id);
+        this.svgField.highlight(id, false);
+    }
+
     render() {
         return (
             <div className="row">
                 <div className="field col s9">
                 </div>
                 <div className="lists col s2">
-                    <TotalRewards idToPosition={this.state.lastPositions} currentBlockNumber={this.state.currentBlockNumber}/>
+                    <TotalRewards
+                        idToPosition={this.state.lastPositions}
+                        currentBlockNumber={this.state.currentBlockNumber}
+                        onSelectRow={(id) => {this.highlight(id)}}
+                        onDeselectRow={(id) => {this.lowlight(id)}}
+                    />
                     <br/>
                     <History x={Number(this.state.x)} y={Number(this.state.y)} positions={this.state.history}/>
                 </div>

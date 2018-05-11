@@ -200,6 +200,11 @@ export class SvgField {
         return [...history, position];
     }
 
+    getAllIdsFromPosition(position) {
+        const history = this.getHistoryIncludingCurrentPosition(position);
+        return history.map(position => position.id);
+    }
+
     newPosition(position) {
         const index = flattenCoords(position.x, position.y);
         const currentPositionAtIndex = this.flattenedMatrix[index];
@@ -248,6 +253,11 @@ export class SvgField {
         return this.gfield.selectAll("rect.position");
     }
 
+    highlight(id, trueForOn) {
+        this.grects.selectAll(".position." + id)
+            .classed("highlight", trueForOn);
+    }
+
     drawMatrix() {
         const self = this;
 
@@ -261,7 +271,7 @@ export class SvgField {
             .attr("y", d => this.ycoord(d.y))
             .merge(data)
             .attr("fill", d => _.isEmpty(d.id) ? "white" : colorScale(d.id))
-            .attr("class", d => "position " + idFromObjectWithXAndY(d))
+            .attr("class", d => "position " + idFromObjectWithXAndY(d) + " " + self.getAllIdsFromPosition(d).join(" "))
             .on("mouseover", d => {
                 self.isOver = true;
                 if(_.isFunction(self.hoverCallback)) {
