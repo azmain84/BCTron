@@ -6,3 +6,11 @@
     background-color: yellow;
     font-weight: bolder;
 }
+
+td.positive {
+    background-color: green;
+}
+
+td.negative {
+    background-color: red;
+}

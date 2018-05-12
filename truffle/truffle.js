@@ -35,12 +35,5 @@ module.exports = {
             network_id: 4,
             from: "0x311c5f508d65d8d64045acdc3c0f92d2972ee2cc"
         },
-        eth02 : {
-            host: "127.0.0.1",
-            port: 5545,
-            network_id: 3,
-            gas: 3000000,
-            from: "0xd424f40143c97faedd444d5dc4c3db25f374940e"
-        }
     }
 };

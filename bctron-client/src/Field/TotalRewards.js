@@ -21,8 +21,23 @@ export class TotalRewards extends Component {
         this.props.onDeselectRow(id)
     }
 
+    positiveOrNegativeClass(nextReward) {
+        if(this.props.currentBlockNumber > 0) {
+            if(nextReward > 0) {
+                return "positive";
+            }
+            else if(nextReward < 0) {
+                return "negative";
+            }
+            return "";
+        }
+
+        return "";
+    }
+
     renderRow(position) {
         const ageOfLastMove = this.props.currentBlockNumber - position.blockNumber;
+        const nextReward = ageOfLastMove - MIN_REWARD;
         return (
             <tr key={position.id}
                 onMouseOver={() => this.select(position.id)}
@@ -31,8 +46,7 @@ export class TotalRewards extends Component {
             >
                 <td>{position.id}</td>
                 <td>{position.totalReward}</td>
-                <td>{this.props.currentBlockNumber > 0 ? ageOfLastMove  : '-'}</td>
-                <td>{this.props.currentBlockNumber > 0 ? (ageOfLastMove >= MIN_REWARD ? ageOfLastMove : 0)  : '-'}</td>
+                <td className={this.positiveOrNegativeClass(nextReward)}>{this.props.currentBlockNumber > 0 ? nextReward : '-'}</td>
                 <td>{this.props.currentBlockNumber > 0 ? this.props.currentBlockNumber - position.blockNumberOfBirth : '-'}</td>
             </tr>
         )
@@ -55,7 +69,6 @@ export class TotalRewards extends Component {
                         <tr>
                             <th>id</th>
                             <th>total rewards</th>
-                            <th>last move</th>
                             <th>next reward</th>
                             <th>age</th>
                         </tr>

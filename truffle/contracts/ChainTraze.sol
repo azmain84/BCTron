@@ -8,7 +8,7 @@ contract ChainTraze {
     int constant PENALTY = -100;
     int constant BUMP = 100;
     int constant MIN_BLOCK_COUNT_BEFORE_HEAD_COLLISION_ALLOWED = 1000;
-    int constant MIN_REWARD = 5;
+    int constant MIN_REWARD = 100;
     
     mapping (address => int256) balances;
     
@@ -62,17 +62,7 @@ contract ChainTraze {
     }
 
     function addReward(string id, int reward, int x, int y, string remarks) internal {
-        if(totalRewards[id] != 0 && totalRewards[id] == (reward * -1)) {
-            if(totalRewards[id] > 0) {
-                totalRewards[id] = -BUMP;
-            }
-            else {
-                totalRewards[id] = BUMP;
-            }
-        }
-        else {
-            totalRewards[id] += reward;
-        }
+        totalRewards[id] += reward;
         int blockNumberOfBirth = blockNumbersOfBirth[id];
         emit Position(id, x, y, reward, totalRewards[id], remarks, blockNumberOfBirth);
         int currentBlockNumber = int(block.number);
@@ -83,7 +73,7 @@ contract ChainTraze {
         int lastBlockNumber = lastBlockNumbers[id];
         int currentBlockNumber = int(block.number);
         int diff = currentBlockNumber - lastBlockNumber;
-        int reward = lastBlockNumber > 0 ? (diff >= MIN_REWARD ? diff : 0) : 0;
+        int reward = lastBlockNumber > 0 ? diff - MIN_REWARD : 0;
         return reward;
     }
     
