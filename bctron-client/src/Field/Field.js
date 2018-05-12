@@ -6,6 +6,7 @@ import 'tooltipster';
 import {SvgField} from './SvgField';
 import {History} from './History';
 import {TotalRewards} from './TotalRewards';
+import {Counter} from "../flipcounter/Counter";
 
 const width = $(window).width() * (8/12);
 const height = $(window).height();
@@ -65,7 +66,9 @@ export class Field extends Component {
             <div className="row">
                 <div className="field col s9">
                 </div>
-                <div className="lists col s2">
+                <div className="lists col s3">
+                    <Counter value={this.state.currentBlockNumber}/>
+                    <br/>
                     <TotalRewards
                         idToPosition={this.state.lastPositions}
                         currentBlockNumber={this.state.currentBlockNumber}
@@ -75,7 +78,6 @@ export class Field extends Component {
                     <br/>
                     <History x={Number(this.state.x)} y={Number(this.state.y)} positions={this.state.history}/>
                 </div>
-                <div className="col s1"></div>
             </div>
         )
     }

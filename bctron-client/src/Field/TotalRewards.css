@@ -1,3 +1,8 @@
+.chaintable tr {
+    font-family: 'Courier', monospace;
+}
+
 .selected {
     background-color: yellow;
+    font-weight: bolder;
 }

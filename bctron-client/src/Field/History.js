@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import './History.css';
 
 const renderPositionRow = (position) => {
     if(_.isEmpty(position.id)) {
@@ -63,7 +64,7 @@ export class History extends Component {
 
     render() {
         return (
-            <div>
+            <div className="historytable">
                 {renderTitle(this.props.x, this.props.y)}
                 <table>
                     <thead>

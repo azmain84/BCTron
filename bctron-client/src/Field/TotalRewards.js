@@ -49,7 +49,7 @@ export class TotalRewards extends Component {
 
     render() {
         return (
-            <div>
+            <div className="chaintable">
                 <table>
                     <thead>
                         <tr>
