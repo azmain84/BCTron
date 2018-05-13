@@ -9,6 +9,7 @@
 
 td.positive {
     background-color: green;
+    color: white;
 }
 
 td.negative {

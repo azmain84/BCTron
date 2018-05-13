@@ -5,3 +5,8 @@
 .historytable td {
     font-size: x-small;
 }
+
+b.title {
+    background-color: black;
+    color: white;
+}

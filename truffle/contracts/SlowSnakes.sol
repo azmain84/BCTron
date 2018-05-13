@@ -1,6 +1,6 @@
 pragma solidity ^0.4.19;
 
-contract ChainTraze {
+contract SlowSnakes {
     
     int constant X_DIM = 100;
     int constant Y_DIM = 100;
@@ -23,31 +23,11 @@ contract ChainTraze {
     mapping (string => int) totalRewards;
     mapping (string => int) blockNumbersOfBirth;
 
-    // The following 4 functions are a workaround to get around an unsolvded Ganache Bug:
-    // https://github.com/trufflesuite/ganache-cli/issues/458
-    // When setting an position from any value > 0 to zero an error occurs
-
-    function setXposition(string id, int pos) internal {
-        xpositions[id] = pos + 1;
-    }
-
-    function getXPosition(string id) view internal returns(int) {
-        return xpositions[id] - 1;
-    }
-    
-    function setYposition(string id, int pos) internal {
-        ypositions[id] = pos + 1;
-    }
-    
-    function getYPosition(string id) view internal returns(int) {
-        return ypositions[id] - 1;
-    }
-    
     event Position(string id, int x, int y, int reward, int totalReward, string remarks, int blockNumberOfBirth);
-    event Error(string message);
     event IdAlreadyExistsError(string id);
     event IdDoesNotExistError(string id);
-    event IdDoesNotBelongToSender(string id);
+    event IdTooShortError(string id);
+    event IdTooLongError(string id);
     event PositionIsNotFreeError(string id, int x, int y);
     event PositionIsOutsideOfFieldError(string id, int x, int y);
     event IdDoesNotYetExist(string id);
@@ -83,6 +63,21 @@ contract ChainTraze {
     }
 
     function checkIdIsValid(string id) internal returns(bool) {
+        uint len = bytes(id).length;
+        if(len < 3) {
+            emit IdTooShortError(id);
+            return false;
+        }
+
+        if(len > 10) {
+            emit IdTooLongError(id);
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkIdDoesExist(string id) internal returns(bool) {
         address existingAddress = idToAddress[id];
         if(existingAddress == address(0x0)) {
             emit IdDoesNotYetExist(id);
@@ -93,7 +88,7 @@ contract ChainTraze {
     }
     
     function checkIdIsFree(string id) internal returns(bool) {
-        if(checkIdIsValid(id)) {
+        if(checkIdDoesExist(id)) {
             emit IdAlreadyExistsError(id);
             return false;
         }
@@ -104,7 +99,7 @@ contract ChainTraze {
     function isInsideField(string id, int x, int y, int currentx, int currenty) internal returns(bool) {
         if(x < 0 || x >= X_DIM || y < 0 || y >= Y_DIM) {
             emit PositionIsOutsideOfFieldError(id, x, y);
-            if(checkIdIsValid(id)) {
+            if(checkIdDoesExist(id)) {
                 addReward(id, PENALTY, currentx, currenty, "PositionIsOutsideOfFieldError");
             }
             return false;
@@ -119,13 +114,6 @@ contract ChainTraze {
     }
 
     function processHeadCollision(string id, string otherId, int x, int y) internal {
-        int currentBlockNumber = int(block.number);
-        int blockNumberOfBirth = blockNumbersOfBirth[id];
-        if(currentBlockNumber - blockNumberOfBirth < MIN_BLOCK_COUNT_BEFORE_HEAD_COLLISION_ALLOWED) {
-            emit HeadCollisionNotYetAllowed(id, x, y);
-            addReward(id, PENALTY, x, y, "NotAllowedHeadCollision");
-        }
-
         int otherTotalReward = totalRewards[otherId];
         if(otherTotalReward >= 0) {
             sendReward(otherId, id, otherTotalReward + BUMP, x, y, "head");
@@ -196,8 +184,8 @@ contract ChainTraze {
         emit NewHead(id, x, y);
         uint index = computeIndex(x, y);
         field[index] = id;
-        setXposition(id, x);
-        setYposition(id, y);
+        xpositions[id] = x;
+        ypositions[id] = y;
         int reward = computeReward(id);
         addReward(id, reward, x, y, "move");
     }
@@ -210,8 +198,8 @@ contract ChainTraze {
 
     function move(int dx, int dy) internal {
         string storage id = addressToId[msg.sender];
-        int currentx = getXPosition(id);
-        int currenty = getYPosition(id);
+        int currentx = xpositions[id];
+        int currenty = ypositions[id];
         int nextx = currentx + dx;
         int nexty = currenty + dy;
 
@@ -265,14 +253,16 @@ contract ChainTraze {
     
     function register(string id, int startx, int starty) public {
         if(checkIdIsValid(id)) {
-            emit IdAlreadyExistsError(id);
-        }
-        else if(!isFree(startx, starty)) {
-            emit PositionIsNotFreeError(id, startx, starty);
-        }
-        else {
-            registerId(id);
-            goIntoField(id, startx, starty);
+            if(checkIdDoesExist(id)) {
+                emit IdAlreadyExistsError(id);
+            }
+            else if(!isFree(startx, starty)) {
+                emit PositionIsNotFreeError(id, startx, starty);
+            }
+            else {
+                registerId(id);
+                goIntoField(id, startx, starty);
+            }
         }
     }
 }

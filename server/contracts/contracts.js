@@ -1,12 +1,12 @@
 const _ = require('lodash');
 const truffleContract = require('truffle-contract');
 const web3Util = require('../web3/web3Util');
-const chainTrazeArtifacts = require('../../truffle/build-eth01/contracts/ChainTraze.json');
-const ChainTraze = truffleContract(chainTrazeArtifacts);
+const slowSnakesArtifacts = require('../../truffle/build-eth01/contracts/SlowSnakes.json');
+const SlowSnakes = truffleContract(slowSnakesArtifacts);
 
 const currentProvider = web3Util.getWeb3().currentProvider;
 
-ChainTraze.setProvider(currentProvider);
+SlowSnakes.setProvider(currentProvider);
 
 const getAddresses = (truffleContract) => {
     const addresses = [];
@@ -31,10 +31,10 @@ const sayHello = (truffleContract) => {
     console.log(truffleContract.contractName + " [" + getDefaultAddress(truffleContract) + "]");
 }
 
-sayHello(ChainTraze);
-getEventNames(ChainTraze);
+sayHello(SlowSnakes);
+getEventNames(SlowSnakes);
 
 module.exports = {
     getAddresses, getDefaultAddress, getEventNames,
-    ChainTraze
+    SlowSnakes
 }

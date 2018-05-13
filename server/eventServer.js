@@ -6,7 +6,7 @@ const eventUtil = require('./util/eventUtil');
 const start = () => {
     const webSocketServer = new WebSocketServer();
 
-    const eventsToListenTo = contracts.getEventNames(contracts.ChainTraze);
+    const eventsToListenTo = contracts.getEventNames(contracts.SlowSnakes);
 
     const newEvent = (event) => {
         eventUtil.saveEvent(event);
@@ -34,7 +34,7 @@ const start = () => {
     const getPastEventsRecursive = (eventNames, index, resolve, allEvents) => {
         if(index < eventNames.length) {
             const eventName = eventNames[index];
-            eventsUtil.pastEvents(contracts.ChainTraze, eventName).on('event', (events) => {
+            eventsUtil.pastEvents(contracts.SlowSnakes, eventName).on('event', (events) => {
                 Array.prototype.push.apply(allEvents, events);
                 getPastEventsRecursive(eventNames, index+1, resolve, allEvents);
             });
@@ -52,7 +52,7 @@ const start = () => {
         });
 
         eventsToListenTo.forEach((eventName) => {
-            eventsUtil.subscribe(contracts.ChainTraze, eventName).on('event', (event) => {
+            eventsUtil.subscribe(contracts.SlowSnakes, eventName).on('event', (event) => {
                 newEvent(event);
             });
         });

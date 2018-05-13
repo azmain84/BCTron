@@ -47,7 +47,7 @@ const renderHeadRow = () => {
 const renderTitle = (x, y) => {
     if(_.isFinite(x) && _.isFinite(y)) {
         return (
-            <b>{x} / {y}</b>
+            <b className="title">{x} / {y}</b>
         )
     }
 

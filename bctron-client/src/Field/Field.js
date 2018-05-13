@@ -46,6 +46,7 @@ export class Field extends Component {
 
     componentDidMount() {
         this.svgField = new SvgField("div.field", width, height, (x, y, history) => this.newHistory(x, y, history));
+        this.svgField.drawMatrix();
         addListenerForPositions((newPosition) => this.newPosition(newPosition));
         addListenerForHeads((heads) => this.svgField.newHeads(heads));
         addListenerForNewBlockNumber((blockNumber) => this.newBlockNumber(blockNumber));
