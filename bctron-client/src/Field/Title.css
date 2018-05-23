@@ -1,0 +1,12 @@
+.title-component h1 {
+    color: gray;
+    font-family: 'Molengo', Georgia, Times, serif;
+    font-size: 3em;
+    opacity: .3;
+}
+
+.title-component p {
+    font-family: 'Lekton', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 25px;
+}

@@ -8,6 +8,7 @@ import {TotalRewards} from './TotalRewards';
 import {Counter} from "../flipcounter/Counter";
 import {ContractLink} from '../blockChain/ContractLink';
 import {getAddress} from '../blockChain/info';
+import {Title} from './Title';
 
 const width = $(window).width() * (8/12);
 const height = $(window).height();
@@ -70,10 +71,7 @@ export class Field extends Component {
                 <div className="field col s9">
                 </div>
                 <div className="lists col s3">
-                    <ContractLink address={this.state.address}/>
-                    <br/>
                     <Counter value={this.state.currentBlockNumber}/>
-                    <br/>
                     <TotalRewards
                         idToPosition={this.state.lastPositions}
                         currentBlockNumber={this.state.currentBlockNumber}
@@ -82,6 +80,9 @@ export class Field extends Component {
                     />
                     <br/>
                     <History x={Number(this.state.x)} y={Number(this.state.y)} positions={this.state.history}/>
+                    <br/>
+                    <Title text="Slow Snakes"/>
+                    <ContractLink address={this.state.address}/>
                 </div>
             </div>
         )
