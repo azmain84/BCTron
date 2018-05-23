@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import React, {Component} from 'react';
 import {addListenerForPositions, addListenerForHeads, addListenerForNewBlockNumber} from '../blockChain/blockChainEvents';
 import * as $ from "jquery";
@@ -7,6 +6,8 @@ import {SvgField} from './SvgField';
 import {History} from './History';
 import {TotalRewards} from './TotalRewards';
 import {Counter} from "../flipcounter/Counter";
+import {ContractLink} from '../blockChain/ContractLink';
+import {getAddress} from '../blockChain/info';
 
 const width = $(window).width() * (8/12);
 const height = $(window).height();
@@ -21,7 +22,8 @@ export class Field extends Component {
             y: undefined,
             history: [],
             lastPositions: {},
-            currentBlockNumber: undefined
+            currentBlockNumber: undefined,
+            address: undefined,
         }
     }
 
@@ -41,7 +43,7 @@ export class Field extends Component {
     }
 
     newBlockNumber(blockNumber) {
-        this.setState({currentBlockNumber: blockNumber});
+        this.setState({currentBlockNumber: blockNumber, address: getAddress()});
     }
 
     componentDidMount() {
@@ -68,6 +70,8 @@ export class Field extends Component {
                 <div className="field col s9">
                 </div>
                 <div className="lists col s3">
+                    <ContractLink address={this.state.address}/>
+                    <br/>
                     <Counter value={this.state.currentBlockNumber}/>
                     <br/>
                     <TotalRewards

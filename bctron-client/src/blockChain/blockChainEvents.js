@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import {connect} from '../webSocket/webSocketHub';
 import {guid} from '../util/random';
+import {setAddress} from './info';
 
 const allEvents = [];
 const listenersForAllEvents = [];
@@ -79,6 +80,9 @@ const newBlockNumber = (blockNumberObj) => {
 }
 
 const newEvent = (event) => {
+    if(!_.isUndefined(event.address)) {
+        setAddress(event.address);
+    }
     if(event.type === "blockNumber") {
         newBlockNumber(event)
     }
