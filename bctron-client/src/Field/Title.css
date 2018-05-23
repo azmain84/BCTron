@@ -1,8 +1,11 @@
 .title-component h1 {
     color: gray;
     font-family: 'Molengo', Georgia, Times, serif;
-    font-size: 3em;
-    opacity: .3;
+    font-size: 8em;
+    opacity: .1;
+    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: .1px;
+    -webkit-text-stroke-color: black;
 }
 
 .title-component p {

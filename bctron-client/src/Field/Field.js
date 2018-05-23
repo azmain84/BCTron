@@ -82,6 +82,9 @@ export class Field extends Component {
                     <History x={Number(this.state.x)} y={Number(this.state.y)} positions={this.state.history}/>
                     <br/>
                     <Title text="Slow Snakes"/>
+                    <br/>
+                    <br/>
+                    <br/>
                     <ContractLink address={this.state.address}/>
                 </div>
             </div>
