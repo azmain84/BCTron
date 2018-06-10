@@ -223,34 +223,18 @@ contract SlowSnakes {
         move(0, -1);
     }
 
-    function northwest() public {
-        move(-1, -1);
-    }
-
     function west() public {
         move(-1, 0);
-    }
-
-    function southwest() public {
-        move(-1, 1);
     }
 
     function south() public {
         move(0, 1);
     }
 
-    function southeast() public {
-        move(1, 1);
-    }
-
     function east() public {
         move(1, 0);
     }
 
-    function northeast() public {
-        move(1, -1);
-    }
-    
     function register(string id, int startx, int starty) public {
         if(checkIdIsValid(id)) {
             if(checkIdDoesExist(id)) {
