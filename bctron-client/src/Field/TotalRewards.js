@@ -1,8 +1,10 @@
 import * as _ from 'lodash';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {MIN_REWARD} from '../blockChain/info';
+import {MIN_REWARD, MAX_REWARD} from '../blockChain/info';
 import './TotalRewards.css';
+
+const REWARD_MODULO = MIN_REWARD + MAX_REWARD;
 
 export class TotalRewards extends Component {
 
@@ -37,7 +39,7 @@ export class TotalRewards extends Component {
 
     renderRow(position) {
         const ageOfLastMove = this.props.currentBlockNumber - position.blockNumber;
-        const nextReward = ageOfLastMove - MIN_REWARD;
+        const nextReward = (ageOfLastMove % REWARD_MODULO) - MIN_REWARD;
         return (
             <tr key={position.id}
                 onMouseOver={() => this.select(position.id)}

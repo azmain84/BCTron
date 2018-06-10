@@ -9,6 +9,8 @@ contract SlowSnakes {
     int constant BUMP = 100;
     int constant MIN_BLOCK_COUNT_BEFORE_HEAD_COLLISION_ALLOWED = 1000;
     int constant MIN_REWARD = 100;
+    int constant MAX_REWARD = 1000;
+    int constant REWARD_MODULO = MAX_REWARD + MIN_REWARD;
     
     mapping (address => int256) balances;
     
@@ -53,7 +55,7 @@ contract SlowSnakes {
         int lastBlockNumber = lastBlockNumbers[id];
         int currentBlockNumber = int(block.number);
         int diff = currentBlockNumber - lastBlockNumber;
-        int reward = lastBlockNumber > 0 ? diff - MIN_REWARD : 0;
+        int reward = lastBlockNumber > 0 ? (diff % REWARD_MODULO) - MIN_REWARD : 0;
         return reward;
     }
     
