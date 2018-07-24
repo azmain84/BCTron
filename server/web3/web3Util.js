@@ -7,14 +7,8 @@ let _web3WithWsProvider;
 let _web3Provider;
 let _web3WebSocketProvider;
 
-const HTTP_HOST = "127.0.0.1";
-const HTTP_PORT = "6545";
-//const WS_HOST = "165.227.137.94";
-const WS_HOST = "127.0.0.1";
-const WS_PORT = "6163";
-
-const HTTP_URL = "http://" + HTTP_HOST + ":" + HTTP_PORT;
-const WS_URL = "ws://" + WS_HOST + ":" + WS_PORT;
+const HTTP_URL = "https://rinkeby.infura.io/v3/6b901e50131a4b69a46c6aad0294cb1d";
+const WS_URL = "wss://rinkeby.infura.io/_ws";
 
 console.log(HTTP_URL);
 console.log(WS_URL);
